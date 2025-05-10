@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guia Gourmet</title>
-  <meta name="description" content="Seu guia gastronômico definitivo - descubra os melhores restaurantes da cidade">
+  <title>Guia GTS</title>
+
   
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,6 +74,8 @@
       position: relative;
       width: 100%;
       height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04);
     }
     
     .image-grid__picture {
@@ -87,11 +89,46 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.5s ease;
+      transition: transform 0.8s ease;
     }
     
     .image-grid__image:hover {
       transform: scale(1.05);
+    }
+    
+    /* Hover effect para os restaurantes */
+    .restaurant-item {
+      transition: all 0.3s ease;
+    }
+    
+    .restaurant-item:hover {
+      transform: translateX(4px);
+    }
+    
+    /* Estilização de botões e elementos interativos */
+    button, a {
+      transition: all 0.2s ease-in-out;
+    }
+    
+    .category-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .category-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #C19F74;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .category-btn:hover::after {
+      width: 70%;
     }
     
     /* Responsive adjustments */
@@ -125,13 +162,14 @@
 <body class="min-h-screen antialiased" x-data="{ menuOpen: false, activeSection: 'categorias' }">
   
   <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-bg-primary/95 backdrop-blur-sm shadow-sm" 
+  <header class="fixed top-0 left-0 right-0 z-50 bg-bg-primary/95 backdrop-blur-sm border-b border-gray-100" 
           x-data="{ scrolled: false }"
-          @scroll.window="scrolled = window.pageYOffset > 20">
+          @scroll.window="scrolled = window.pageYOffset > 20"
+          :class="{ 'shadow-md': scrolled }">
     <div class="max-w-screen-md mx-auto px-4 py-3 flex items-center justify-between">
       <a href="#" class="inline-block" aria-label="Guia Gourmet - Página inicial">
         <h1 class="text-2xl font-inter font-bold text-text-primary">
-          <span class="text-accent">Guia</span> Gourmet
+          <span class="text-accent">Guia</span> GTS
         </h1>
       </a>
       
@@ -221,8 +259,8 @@
         </div>
         <div class="image-grid__item" data-aos="fade" data-aos-delay="500" data-aos-duration="1500">
           <picture class="image-grid__picture">
-            <source srcset="./sorvete.png" media="(max-width: 960px)">
-            <img src="./sorvete.png" alt="Imagem gastronômica" class="image-grid__image">
+            <source srcset="./wook.png" media="(max-width: 960px)">
+            <img src="./wook.png" alt="Imagem gastronômica" class="image-grid__image">
           </picture>
         </div>
       </div>
@@ -231,11 +269,10 @@
     <!-- Texto no estilo KANOE -->
     <div class="pb-16 text-center mt-8">
       <h2 class="font-inter font-bold text-2xl text-text-primary tracking-wide">
-        BEM VINDO AO<br>「<span class="text-accent">GUIA GOURMET</span>」
+        BEM VINDO AO<br>「<span class="text-accent">GUIA GTS</span>」
       </h2>
-      <p class="text-text-primary mt-4 max-w-md mx-auto text-sm">
-        Desfrute de uma curadoria especializada de restaurantes
-        selecionados para os mais aficionados apreciadores da gastronomia.
+      <p class="text-text-primary mt-4 max-w-md mx-auto text-sm leading-relaxed">
+        Apenas uma brincadeira de uma apaixonado por gastronomia e os bons momentos que ela proporciona. Perceba que os comentarios não foram feitos pelo chatGPT, dado que a maioria não passa de 3 palavras.
       </p>
     </div>
   </section>
@@ -248,63 +285,123 @@
       {
         id: 'sushi',
         name: 'Sushi',
-        description: 'Lista de restaurantes na categoria Sushi.',
-        image: 'https://source.unsplash.com/600x400/?Sushi,food',
         restaurants: [
-          { name: 'Kan Suke', rating: 9, comment: 'Excelente custo-benefício no omakase' },
-          { name: 'Ryo', rating: 9, comment: 'Omakase refinado e memorável' },
-          { name: 'Shin Zushi', rating: 7, comment: 'Clássico e tradicional japonês' },
-          { name: 'Huto', rating: 7, comment: 'Ambiente elegante, mas há opções melhores pelo preço' },
-          { name: 'Makoto San', rating: 8, comment: 'Experiência sólida, peixes frescos' },
-          { name: 'Sushi YAZ', rating: 8, comment: 'Muito bem executado, ambiente agradável' },
-          { name: 'Watanabe', rating: 7, comment: 'Atum selado no carvão é destaque' },
-          { name: 'Kazuo', rating: 8, comment: 'Bento box bem servido no almoço' },
-          { name: 'Jun Sakamoto', rating: 8, comment: 'Técnica impecável, ambiente exclusivo' },
-          { name: 'Nakka', rating: 8, comment: 'Boa seleção de peixes e serviço rápido' }
+          { name: 'Kan Suke', rating: 8.5, comment: 'Excelente omakase' },
+          { name: 'Ryo', rating: 9.5, comment: 'Das melhores experiências de Omakase da vida' },
+          { name: 'Shin Zushi', rating: 9, comment: 'Clássico e tradicional japonês, ótimo shari' },
+          { name: 'Huto', rating: 7, comment: 'Ambiente legal, mas há opções melhores pelo preço' },
+          { name: 'Makoto San', rating: 8, comment: 'Dia de Bluefin, é incrível' },
+          { name: 'Sushi VAZ', rating: 8, comment: 'Muito bom' },
+          { name: 'Watanabe', rating: 7, comment: 'Atum selado no carvão é destaque, restante ok' },
+          { name: 'Kazuo', rating: 7, comment: 'Bom Bento box no almoço' },
+          { name: 'Nakka', rating: 6, comment: 'Sem comentários adicionais' },
+          { name: 'Aizomê', rating: 9, comment: 'Muito bom, experiência no balcão' },
+          { name: 'Kanoe', rating: 9.5, comment: 'Surreal, top5 da vida' },
+          { name: 'By Koji', rating: 8, comment: 'Sem comentários adicionais' }
         ]
       },
       {
-        id: 'espanhol-francês-italiano',
-        name: 'Espanhol/Francês/Italiano',
-        description: 'Lista de restaurantes na categoria Espanhol/Francês/Italiano.',
-        image: '/mnt/data/IMG_4789.HEIC',
+        id: 'espanhol',
+        name: 'Espanhol',
         restaurants: [
-          { name: 'Fame Osteria', rating: 8, comment: 'Raviolo recheado impecável' },
-          { name: 'Shinomi', rating: 8, comment: 'Bacalhau em massa fina surpreende' },
-          { name: 'Tanit', rating: 7, comment: 'Steak tartare equilibrado e bem temperado' },
-          { name: 'Ici Bistrô', rating: 8, comment: 'Croquetas e entradas bem elaboradas' },
-          { name: 'La Casserole', rating: 7, comment: 'Clássico francês com bom tartare' },
-          { name: 'Clos', rating: 7, comment: 'Oscila, mas tem boas entradas' },
-          { name: 'Bottigga Enoteca', rating: 6, comment: 'Sobremesa de pistache é ponto alto' },
-          { name: 'Piccolo', rating: 8, comment: 'Pastas frescas e atendimento acolhedor' },
-          { name: 'Modi Gastronomia', rating: 8, comment: 'Menu sazonal com pratos autorais italianos' }
+          { name: 'Tanit', rating: 8.5, comment: 'Alta cozinha espanhola com toque contemporâneo do chef Oscar Bosch' },
+          { name: 'Torero Valese', rating: 8, comment: 'Tapas criativas e ambiente legal' },
+          { name: 'Paellas Pepe', rating: 7, comment: 'Boas paellas tradicionais' },
+          { name: 'El Mercado Ibérico', rating: 7.5, comment: 'Mercado e restaurante com produtos e pratos típicos da Espanha' },
+          { name: 'Cala del Tani', rating: 7.5, comment: 'Restaurante simpático com inspiração espanhola' }
         ]
       },
       {
-        id: 'carnes-sanduíches-pizzas-sorvetes',
-        name: 'Carnes/Sanduíches/Pizzas/Sorvetes',
-        description: 'Lista de restaurantes na categoria Carnes, Pizzas e Sorvetes.',
-        image: '/mnt/data/IMG_4788.HEIC',
+        id: 'frances',
+        name: 'Francês',
+        restaurants: [
+          { name: 'Ici Bistrô', rating: 8.5, comment: 'Ótimo steak tartare' },
+          { name: 'La Casserole', rating: 8.5, comment: 'Steak tartare e fries muito bom' },
+          { name: 'Ruella', rating: 7.5, comment: 'Lugar legal e comida boa' },
+
+        ]
+      },
+      {
+        id: 'brasileiro',
+        name: 'Brasileiro ',
+        restaurants: [
+          { name: 'Baru', rating: 8, comment: 'Melhor polvo, restante bom' },
+          { name: 'Tordesilhas', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Jiquitaia', rating: 7, comment: 'Bom, nada excepcional' },
+          { name: 'De segunda', rating: 7, comment: 'Menu de almoço ok, exceto pelo frango frito que tava sensacional' },
+          { name: 'A Casa do Porco', rating: 8, comment: 'Varia muito, alguns pratos ótimos outros ruins' },
+          { name: 'Mani', rating: 8.5, comment: 'Bom, socarrat excelente' }
+        ]
+      },
+      {
+        id: 'asiaticos',
+        name: 'Asiáticos',
+        restaurants: [
+          { name: 'Izakaya Issa', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Bi Koji', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Fat Buda', rating: 7, comment: 'Bom katsu sando' },
+          { name: 'Mapu', rating: 9, comment: 'Bowl de Arroz oriental muito bom, grande memoria afetiva' },
+          { name: 'Amo te Sando', rating: 7, comment: 'Sem comentários adicionais' },
+          { name: 'Ototo', rating: 7, comment: 'Sem comentários adicionais' },
+          { name: 'Quito Quito', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Kuro', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Aizome', rating: 9, comment: 'Sem comentários adicionais' },
+          { name: 'Samis Amir', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Kotori', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Izakaya Liberdade', rating: 7, comment: 'Sem comentários adicionais' },
+          { name: 'Sainte Marie', rating: 8, comment: 'Sem comentários adicionais' },
+          { name: 'Casa Garabed', rating: 8, comment: 'Sem comentários adicionais' }
+        ]
+      },
+      
+      {
+        id: 'autoral',
+        name: 'Autoral',
+        restaurants: [
+          { name: 'Oteque', rating: 9, comment: 'Alguns pratos geniais' },
+          { name: 'Charcho', rating: 8, comment: 'Menu muito bom, uma das melhores sobremesas da vida' },
+          { name: 'Evvai', rating: 8.5, comment: 'Sem comentários adicionais' },
+          { name: 'Borgo Mooca', rating: 7, comment: 'Sem comentários adicionais' },
+          { name: 'Lobozo', rating: 7.5, comment: 'Sem comentários adicionais' },
+          { name: 'Arturito', rating: 8, comment: 'Polvo muito bom, pão excelente' },
+          { name: 'Cepa', rating: 8, comment: 'Sem comentários adicionais' }
+        ]
+      },
+      {
+        id: 'italiano',
+        name: 'Italiano',
+        restaurants: [
+          { name: 'Fame Osteria', rating: 9, comment: 'Melhor Raviolo' },
+          { name: 'Shihoma', rating: 9, comment: 'Entradas ok, ravioli e bacalhau sensacional' },
+          { name: 'Picchi', rating: 8, comment: 'Entradas ok, ravioli e bacalhau sensacional' },
+          { name: 'Cosi', rating: 7, comment: 'Varia muito, bom steak tartare' },
+          { name: 'Bottega Bernacca', rating: 8, comment: 'Sem comentários adicionais' }
+        ]
+      },
+
+      {
+        id: 'carnes-sanduiches-pizzas',
+        name: 'Carnes/Sanduíches/Pizzas',
         restaurants: [
           { name: 'La Borracharia', rating: 8, comment: 'Carnes OK, hambúrguer entre os melhores' },
-          { name: 'GB', rating: 8, comment: 'Hambúrguer suculento, pão macio' },
           { name: 'Di Bari', rating: 8, comment: 'Ótima pizza estilo NY' },
-          { name: 'Iza Pizzaria', rating: 8, comment: 'Massa fina, tradição e qualidade' },
-          { name: 'Chebar Churras', rating: 7, comment: 'Ambiente descontraído, carne correta' },
-          { name: 'Holy Burger', rating: 7, comment: 'Boa técnica, hambúrguer equilibrado' },
-          { name: 'Bráz Pizzaria', rating: 8, comment: 'Clássico paulistano, massa perfeita' },
-          { name: 'Davvero Gelato', rating: 9, comment: 'Um dos melhores gelatos artesanais de SP' }
+          { name: 'Iza Pizzaria', rating: 9, comment: 'Pizza absurda' },
+          { name: 'Bráz Pizzaria', rating: 8, comment: 'Boa pizza' },
+          { name: 'Z Deli Sandwiches', rating: 8.5, comment: ' ' },
+          { name: 'Pão com Carne', rating: 8.5, comment: 'Campeão de simplicidade bem‑feita' },
+
+          { name: 'Leggera Pizza Napoletana', rating: 8, comment: ' ' }
         ]
       }
-    ],
-    activeCategory: 'sushi' }">
+    ], activeCategory: 'sushi' }">
+    
       <!-- Seleção de categorias -->
       <div class="flex flex-wrap gap-4 justify-center mb-10">
         <template x-for="category in categories" :key="category.id">
           <button 
             @click="activeCategory = category.id"
-            class="px-5 py-2 rounded-full text-sm transition-colors duration-200 border focus:outline-none focus:ring-2 focus:ring-accent"
-            :class="activeCategory === category.id ? 'bg-accent text-white border-accent' : 'bg-transparent text-text-primary border-gray-200 hover:border-accent'"
+            class="px-5 py-2 rounded-full text-sm transition-colors duration-300 border focus:outline-none focus:ring-2 focus:ring-accent category-btn"
+            :class="activeCategory === category.id ? 'bg-accent text-white border-accent shadow-sm' : 'bg-transparent text-text-primary border-gray-200 hover:border-accent'"
             x-text="category.name">
           </button>
         </template>
@@ -312,22 +409,22 @@
 
       <!-- Exibição da categoria ativa -->
       <template x-for="category in categories.filter(c => c.id === activeCategory)" :key="category.id">
-        <div class="space-y-4">
+        <div class="space-y-4 fade-in">
           <div class="mb-8">
             <h3 class="text-2xl font-inter font-semibold" x-text="category.name"></h3>
             <p class="text-gray-600 mt-2" x-text="category.description"></p>
           </div>
           
           <!-- Lista de restaurantes (design minimalista) -->
-          <div class="border border-gray-100 rounded-lg">
+          <div class="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
             <div class="grid grid-cols-1 divide-y divide-gray-100">
               <template x-for="restaurant in category.restaurants" :key="restaurant.name">
-                <div class="flex items-center justify-between p-4 group transition-all hover:bg-gray-50">
+                <div class="flex items-center justify-between p-4 group transition-all hover:bg-gray-50 restaurant-item">
                   <div class="flex-1 mr-2">
                     <div class="flex items-center space-x-2">
                       <h4 class="font-inter text-base font-medium tracking-tight" x-text="restaurant.name"></h4>
-                      <div class="flex items-center">
-                        <span class="text-accent font-semibold ml-1 text-sm" x-text="restaurant.rating"></span>
+                      <div class="flex items-center bg-gray-50 px-2 py-0.5 rounded-full">
+                        <span class="text-accent font-semibold text-sm" x-text="restaurant.rating"></span>
                       </div>
                     </div>
                     <p class="text-gray-500 text-sm mt-1 font-light leading-relaxed" x-text="restaurant.comment || 'Sem comentários'"></p>
@@ -349,17 +446,9 @@
   <!-- Sobre -->
   <section id="sobre" class="py-16 bg-gray-50">
     <div class="max-w-screen-md mx-auto px-4">
-      <h2 class="text-3xl font-inter font-bold text-center mb-8">Sobre o Guia Gourmet</h2>
-      <div class="bg-white p-6 rounded-lg shadow-sm">
-        <p class="mb-4">O <span class="font-semibold">Guia Gourmet</span> nasceu da paixão por experiências gastronômicas autênticas e memoráveis. Nossa missão é conectar apreciadores da boa comida aos melhores restaurantes da cidade.</p>
-        <p class="mb-4">Cada restaurante recomendado passa por uma criteriosa avaliação que considera:</p>
-        <ul class="list-disc pl-5 mb-4 space-y-2">
-          <li>Qualidade e frescor dos ingredientes</li>
-          <li>Técnica e criatividade do chef</li>
-          <li>Ambiente e experiência completa</li>
-          <li>Relação custo-benefício</li>
-        </ul>
-        <p>Acreditamos que uma refeição excepcional é aquela que proporciona não apenas sabores marcantes, mas também momentos inesquecíveis.</p>
+      <h2 class="text-3xl font-inter font-bold text-center mb-8">Sobre o Guia GTS</h2>
+      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <p class="mb-4 leading-relaxed">Não leve nada a sério esse guia, comentarios nada aprofundados, criei apenas para nao esquecer dos lugares que ja fui... Ainda preciso provar muitos restaurantes para melhorar minhas opiniões, enquanto isso, sigo indo em restaurantes e tentando replicar os pratos em casa</p>
       </div>
     </div>
   </section>
@@ -368,14 +457,9 @@
   <footer class="bg-text-primary text-white py-8">
     <div class="max-w-screen-md mx-auto px-4">
       <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0">
-          <h3 class="font-inter text-xl font-semibold"><span class="text-accent">Guia</span> Gourmet</h3>
-          <p class="text-sm text-gray-400 mt-1">Descubra os melhores sabores da cidade</p>
-        </div>
+
         
-        <div class="text-sm text-gray-400">
-          &copy; <span x-text="new Date().getFullYear()"></span> Guia Gourmet. Todos os direitos reservados.
-        </div>
+
       </div>
     </div>
   </footer>
@@ -384,7 +468,11 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Inicializa AOS (Animate On Scroll)
-      AOS.init();
+      AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+      });
       
       // Detecta o scroll para atualizar o menu ativo
       const sections = document.querySelectorAll('section[id]');
